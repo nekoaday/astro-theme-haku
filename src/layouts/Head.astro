@@ -1,0 +1,32 @@
+---
+import { base, themeConfig } from "@/config";
+
+// Site configuration
+const { title, subtitle, description, author, url, favicon } = themeConfig.site;
+
+// Props and Language
+const { articleTitle, articleDescription, articleSlug } = Astro.props
+
+// Site Metadata
+const siteTitle = title
+const siteSubtitle = subtitle
+const siteDescription = description
+
+// Page metadata
+const pageTitle = articleTitle ? `${articleTitle} | ${siteTitle}` : `${siteTitle} - ${siteSubtitle}`
+const pageDescription = articleDescription || siteDescription
+const pageImage = articleSlug
+---
+
+<head>
+    <!-- Basic info -->
+     <meta charset="utf-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+     {favicon.toLowerCase().endsWith(".svg") && (<link rel="icon" type="image/svg+xml" href={`${base}${favicon}`} />)}
+     {favicon.toLowerCase().endsWith(".png") && (<link rel="icon" type="image/png" href={`${base}${favicon}`} />)}
+     {favicon.toLowerCase().endsWith(".ico") && (<link rel="icon" type="image/x-icon" href={`${base}${favicon}`} />)}
+     <title>{pageTitle}</title>
+     <meta name="description" content={pageDescription} />
+     <meta name="author" content={author} />
+     <meta name="generator" content={Astro.generator} />
+</head>

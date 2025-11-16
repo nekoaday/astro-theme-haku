@@ -1,0 +1,50 @@
+---
+// src/pages/[...index].astro
+import { lang } from '@/config'
+import Layout from '../layouts/Layout.astro'
+import { getPinnedArticles, getArticlesByYear } from '@/utils/content'
+
+export async function getStaticPaths() {
+  type PathItem = {
+    params: { index: string | undefined }
+    props: { language: string }
+  }
+
+  const paths: PathItem[] = []
+
+  // Default locale
+  paths.push({
+    params: { index: undefined },
+    props: { language: lang }
+  })
+
+  return paths
+}
+
+const { language } = Astro.props
+
+const pinnedPosts = await getPinnedArticles(language)
+const articlesByYear = await getArticlesByYear(language)
+---
+
+<Layout>
+  <!-- 这里是首页独有的内容 -->
+	<h1>Welcome!</h1>
+	<p>This is a lightning-fast website built using the Astro framework.</p>
+	<img src="https://gcore.jsdelivr.net/gh/Karlbaey/tutu@master/picture10/20251108164726616.png" alt="Acheron" />
+  <!-- Pinned Posts -->
+  {pinnedPosts.length > 0 && (
+    <section class="mb-7.5">
+      <div class="uno-decorative-line" />
+      {/* <PostList articles={pinnedPosts} lang={lang} pinned={true} /> */}
+    </section>
+  )}
+
+  <!-- Regular Posts -->
+  {[...articlesByYear.entries()].map(([_year, articles]) => (
+    <section class="mb-7.5">
+      <div class="uno-decorative-line" />
+      {/* <PostList articles={articles} lang={lang} /> */}
+    </section>
+  ))}
+</Layout>
