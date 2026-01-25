@@ -13,7 +13,8 @@
           "mask-image",
           "scrollbar-width",
           "scrollbar-width: none",
-          "color: oklch(0.2033 0 360)"
+          "color: oklch(0.2033 0 360)",
+          "user-select"
         ]
       }
     ],

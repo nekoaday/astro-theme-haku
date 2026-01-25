@@ -8,6 +8,7 @@ import "../styles/global.css";
 import "../styles/markdown.css";
 import "../styles/ext.css";
 import ToggleButton from "@/components/ToggleButton.astro";
+import CodeCopyButton from "@/components/CodeCopyButton.astro";
 
 interface Props {
   publishedDate?: string;
@@ -17,7 +18,7 @@ interface Props {
   supportedLangs?: string[];
 }
 
-const { publishedDate, articleTitle, articleDescription } = Astro.props;
+const { articleTitle, articleDescription } = Astro.props;
 const { author } = themeConfig.site;
 ---
 
@@ -43,17 +44,18 @@ const { author } = themeConfig.site;
           <article>
             <div class="markdown">
               <slot />
+              <CodeCopyButton />
             </div>
+            <footer>
+              <p>
+                &copy; {new Date().getFullYear()}
+                {author} - All rights reserved. Released under <a
+                  href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+                  rel="canonical">CC BY-NC-SA 4.0</a
+                >.
+              </p>
+            </footer>
           </article>
-          <footer>
-            <p>
-              &copy; {new Date().getFullYear()}
-              {author} - All rights reserved. Released under <a
-                href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
-                rel="canonical">CC BY-NC-SA 4.0</a
-              >.
-            </p>
-          </footer>
         </div>
       </main>
     </div>

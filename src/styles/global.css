@@ -21,7 +21,9 @@
   svg[id^="mermaid-"] {
     @apply bg-white dark:bg-gray-500 rounded-lg p-4 mx-auto block min-w-min;
   }
+}
 
+@layer components {
   .article-meta {
     @apply flex items-center gap-6 text-sm mt-2 mb-8 text-shadow-zinc-800 dark:text-zinc-400 italic;
   }
@@ -35,5 +37,42 @@
 
   .icon {
     @apply inline-flex items-center w-5 h-5;
+  }
+}
+
+@layer components {
+  .code-block-wrapper {
+    @apply relative mb-4 mt-4;
+  }
+
+  .copy-code-btn {
+    @apply absolute top-2 right-2 z-20;
+    @apply flex justify-center items-center;
+    @apply w-8 h-8 p-0;
+
+    @apply text-sm text-slate-400;
+    @apply bg-slate-800/60;
+    @apply border border-white/10 rounded-md;
+
+    @apply cursor-pointer opacity-0 transition-all duration-200;
+    @apply select-none;
+
+    &:hover {
+      @apply bg-slate-800 text-slate-100;
+    }
+
+    &.success {
+      @apply bg-emerald-600 text-white;
+    }
+  }
+
+  .code-block-wrapper:hover .copy-code-btn {
+    @apply opacity-100;
+  }
+
+  @media (hover: none) {
+    .copy-code-btn {
+      @apply opacity-100;
+    }
   }
 }
