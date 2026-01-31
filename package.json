@@ -25,7 +25,7 @@
     "remark-directive": "^4.0.0",
     "remark-math": "^6.0.0",
     "tailwindcss": "^4.1.17",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "@types/markdown-it": "^14.1.2",
