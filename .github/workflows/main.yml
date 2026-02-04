@@ -14,13 +14,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repository using git
-        uses: actions/checkout@v5
+    - name: Install Playwright browsers (for rehype-mermaid)
+      run: pnpm exec playwright install --with-deps chromium
 
-      - name: Install, build, and upload your site
-        uses: withastro/action@v5
-        env:
-          ENABLE_MERMAID: "true"
+    - name: Checkout your repository using git
+      uses: actions/checkout@v5
+
+    - name: Install, build, and upload your site
+      uses: withastro/action@v5
+      env:
+        ENABLE_MERMAID: "true"
         # with:
         #   path: .              # 可选：Astro 项目在仓库里的子目录
         #   node-version: 24     # 可选：指定 Node 版本（默认 22）
