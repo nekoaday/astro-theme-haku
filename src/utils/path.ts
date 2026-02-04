@@ -11,3 +11,10 @@ export function getArticlePath(slug: string): string {
 
     return base ? `${base}${p}` : p
 }
+
+export function getPagePath(page: number, basePath: string = '/'): string {
+    const normalizedBase = basePath.endsWith('/') ? basePath : `${basePath}/`
+    const p = page <= 1 ? normalizedBase : `${normalizedBase}page/${page}/`
+
+    return base ? `${base}${p}` : p
+}

@@ -1,0 +1,52 @@
+---
+import { getTagPath } from "@/utils/path";
+
+interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props;
+---
+
+{tags?.length > 0 && (
+  <div class="tag-list">
+    <h2 class="tag-list__title">标签</h2>
+    <ul>
+      {tags.map((tag) => (
+        <li>
+          <a href={getTagPath(tag)} class="tag-list__item">#{tag}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+<style is:global>
+  .tag-list {
+    margin-top: 2rem;
+  }
+
+  .tag-list__title {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tag-list ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .tag-list__item {
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border, rgba(0, 0, 0, 0.12));
+    text-decoration: none;
+  }
+
+  html.dark .tag-list__item {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+</style>

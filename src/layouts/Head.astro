@@ -1,15 +1,17 @@
 ---
 import { base, themeConfig } from "@/config";
+import type { ImageMetadata } from "astro";
 import katexCSS from "katex/dist/katex.min.css?url";
 
 interface Props {
   articleTitle?: string;
   articleDescription?: string;
+  articleImage?: ImageMetadata | string;
 }
 
 const { title, subtitle, description, author, url, favicon } = themeConfig.site;
 
-const { articleTitle, articleDescription } = Astro.props;
+const { articleTitle, articleDescription, articleImage } = Astro.props;
 
 const siteTitle = title;
 const siteSubtitle = subtitle;
@@ -19,6 +21,19 @@ const pageTitle = articleTitle
   ? `${articleTitle} | ${siteTitle}`
   : `${siteTitle} - ${siteSubtitle}`;
 const pageDescription = articleDescription || siteDescription;
+
+const ogImage =
+  (typeof articleImage === "string" ? articleImage : articleImage?.src) ||
+  themeConfig.site.defaultOgImage ||
+  "";
+
+const absoluteOgImage = ogImage
+  ? ogImage.startsWith("http")
+    ? ogImage
+    : `${url}${base}${ogImage}`
+  : "";
+
+const analytics = themeConfig.analytics;
 ---
 
 <head>
@@ -45,10 +60,33 @@ const pageDescription = articleDescription || siteDescription;
   }
   <title>{pageTitle}</title>
   <meta name="description" content={pageDescription} />
+  <meta name="theme-color" content={themeConfig.color.light.background} />
   <meta property="og:url" content={Astro.url} />
   <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDescription} />
+  <meta property="og:type" content={articleTitle ? "article" : "website"} />
+  {absoluteOgImage && <meta property="og:image" content={absoluteOgImage} />}
+  <meta
+    name="twitter:card"
+    content={absoluteOgImage ? "summary_large_image" : "summary"}
+  />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={pageDescription} />
+  {absoluteOgImage && <meta name="twitter:image" content={absoluteOgImage} />}
   <meta name="author" content={author} />
   <meta name="generator" content={Astro.generator} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title={`${siteTitle} RSS`}
+    href={`${base}/rss.xml`}
+  />
   <link
     rel="stylesheet"
     href={katexCSS}
@@ -59,4 +97,38 @@ const pageDescription = articleDescription || siteDescription;
     defer
     src="https://fastly.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js"
   ></script>
+  {
+    analytics.provider === "plausible" && analytics.dataDomain && (
+      <script
+        defer
+        data-domain={analytics.dataDomain}
+        src={analytics.scriptUrl || "https://plausible.io/js/script.js"}
+      ></script>
+    )
+  }
+  {
+    analytics.provider === "umami" && analytics.websiteId && (
+      <script
+        defer
+        data-website-id={analytics.websiteId}
+        src={analytics.scriptUrl || "https://analytics.umami.is/script.js"}
+      ></script>
+    )
+  }
+  {
+    analytics.provider === "ga4" && analytics.measurementId && (
+      <>
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${analytics.measurementId}`}
+        ></script>
+        <script is:inline>{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${analytics.measurementId}');
+        `}</script>
+      </>
+    )
+  }
 </head>

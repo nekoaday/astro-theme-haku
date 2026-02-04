@@ -11,9 +11,20 @@
 @layer base {
   :root {
     --site-font: "Noto Serif SC", serif, "Noto Sans SC", sans-serif;
+    --color-border: rgba(0, 0, 0, 0.12);
+    --color-highlight: rgba(0, 0, 0, 0.08);
+    --color-bg: #ffffff;
+    --color-text-primary: #0a0a0a;
 
     font-family: var(--site-font);
     overflow-y: scroll;
+  }
+
+  :root.dark {
+    --color-border: rgba(255, 255, 255, 0.18);
+    --color-highlight: rgba(255, 255, 255, 0.08);
+    --color-bg: #151515;
+    --color-text-primary: #f5f5f5;
   }
 
   footer {
@@ -32,6 +43,14 @@
 
   .article-meta {
     @apply flex items-center gap-6 text-sm mt-2 mb-8 text-shadow-zinc-800 dark:text-zinc-400 italic;
+  }
+
+  .article-cover {
+    @apply mb-8 overflow-hidden rounded-2xl shadow-sm;
+  }
+
+  .article-cover img {
+    @apply w-full h-auto;
   }
 
   .meta-item {

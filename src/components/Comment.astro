@@ -1,0 +1,38 @@
+---
+import themeConfig from "@/config";
+
+const { comments } = themeConfig;
+
+const enabled = comments.provider === "giscus" && comments.repo && comments.repoId;
+---
+
+{enabled && (
+  <section class="comment">
+    <div
+      class="giscus"
+      data-repo={comments.repo}
+      data-repo-id={comments.repoId}
+      data-category={comments.category}
+      data-category-id={comments.categoryId}
+      data-mapping={comments.mapping}
+      data-strict={String(comments.strict)}
+      data-reactions-enabled={String(comments.reactionsEnabled)}
+      data-emit-metadata={String(comments.emitMetadata)}
+      data-input-position={comments.inputPosition}
+      data-theme={comments.theme}
+      data-lang={comments.lang}
+    ></div>
+    <script
+      src="https://giscus.app/client.js"
+      data-loading="lazy"
+      async
+      crossorigin="anonymous"
+    ></script>
+  </section>
+)}
+
+<style is:global>
+  .comment {
+    margin-top: 3rem;
+  }
+</style>
