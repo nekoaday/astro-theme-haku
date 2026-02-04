@@ -22,10 +22,11 @@ const isHome = isHomePage(Astro.url.pathname);
       const slug = article.data.abbrlink || article.id;
 
       return (
-        <li class:list={["mb-6", isHome ? "lg:mb-10" : ""]}>
-          <h3 class="inline transition-colors">
+        <li class:list={["article-card", isHome ? "lg:mb-10" : ""]}>
+          <h3 class="article-card-title transition-colors">
             <a
               class:list={[
+                "article-card-link",
                 "tracking-wide",
                 isHome ? "lg:font-medium lg:text-lg" : "",
               ]}
@@ -44,7 +45,7 @@ const isHome = isHomePage(Astro.url.pathname);
             )}
           </h3>
 
-          <div class="block mt-1 text-sm font-time lg:ml-2.5 lg:inline lg:mt-0">
+          <div class="article-card-meta block mt-1 text-sm font-time lg:ml-2.5 lg:inline lg:mt-0">
             <ArticleDate
               date={article.data.published}
               minutes={article.remarkPluginFrontmatter.minutes}
@@ -52,7 +53,7 @@ const isHome = isHomePage(Astro.url.pathname);
           </div>
 
           {isHome && (
-            <div class="heti mt-2 block lg:mt-3">
+            <div class="heti article-card-desc mt-2 block lg:mt-3">
               <p>{getArticleDescription(article, "list")}</p>
             </div>
           )}

@@ -33,11 +33,11 @@ const { author } = themeConfig.site;
     articleDescription={articleDescription}
     articleImage={articleImage}
   />
-  <body>
+  <body class="page-body">
     <div
-      class="max-w-360 mx-auto min-h-screen px-6 lg:grid lg:grid-cols-[320px_1fr] lg:gap-x-16"
+      class="site-shell max-w-360 mx-auto min-h-screen px-6 lg:grid lg:grid-cols-[320px_1fr] lg:gap-x-16"
     >
-      <aside class="min-w-0">
+      <aside class="site-aside min-w-0">
         <div class="lg:sticky lg:top-10 wrap-break-word">
           <Header />
           <Navbar />
@@ -48,8 +48,8 @@ const { author } = themeConfig.site;
         </div>
       </aside>
 
-      <main class="py-8 relative">
-        <article>
+      <main class="site-main py-8 relative">
+        <article class="site-article">
           <div class="markdown">
             <slot />
             <CodeCopyButton />
