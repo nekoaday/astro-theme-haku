@@ -19,6 +19,8 @@ jobs:
 
       - name: Install, build, and upload your site
         uses: withastro/action@v5
+        env:
+          ENABLE_MERMAID: "true"
         # with:
         #   path: .              # 可选：Astro 项目在仓库里的子目录
         #   node-version: 24     # 可选：指定 Node 版本（默认 22）
