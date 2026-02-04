@@ -7,7 +7,7 @@ export const themeConfig: ThemeConfig = {
     description: 'A demo',
     author: 'Hakubot',
     base: '/',
-    url: 'https://haku.karlbaey.top',
+    url: 'https://klb.n-k.site',
     favicon: '/favicon.png',
     defaultOgImage: '/og-default.svg',
   },
