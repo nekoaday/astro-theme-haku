@@ -14,22 +14,38 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Install Playwright browsers (for rehype-mermaid)
-      run: pnpm exec playwright install --with-deps chromium
+      - name: Checkout
+        uses: actions/checkout@v5
 
-    - name: Checkout your repository using git
-      uses: actions/checkout@v5
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
-    - name: Install, build, and upload your site
-      uses: withastro/action@v5
-      env:
-        ENABLE_MERMAID: "true"
-        # with:
-        #   path: .              # 可选：Astro 项目在仓库里的子目录
-        #   node-version: 24     # 可选：指定 Node 版本（默认 22）
-        #   package-manager: pnpm@latest  # 可选：指定包管理器
-        # env:
-        #   PUBLIC_FOO: 'bar'    # 可选：需要的公开环境变量
+      # 如果你用 pnpm（推荐锁版本）
+      - name: Setup pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.15.4 --activate
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Playwright browsers (for rehype-mermaid)
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Build
+        env:
+          ENABLE_MERMAID: "true"
+        run: pnpm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
 
   deploy:
     needs: build
