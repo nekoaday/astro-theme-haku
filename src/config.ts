@@ -8,12 +8,45 @@ export const themeConfig: ThemeConfig = {
     author: 'Hakubot',
     base: '/',
     url: 'https://haku.karlbaey.top',
-    favicon: '/favicon.png'
+    favicon: '/favicon.png',
+    defaultOgImage: '/og-default.svg',
   },
   global: {
     lang: 'zh',
     toc: true,
     dateFmt: 'YYYY MMM D' // 'YYYY-MM-DD' | 'MM-DD-YYYY' | 'DD-MM-YYYY' | 'MMM D YYYY' | 'D MMM YYYY'
+  },
+  content: {
+    pageSize: 10,
+  },
+  social: {
+    github: '',
+    twitter: '',
+    mastodon: '',
+    telegram: '',
+    linkedin: '',
+    email: '',
+  },
+  analytics: {
+    provider: 'none',
+    scriptUrl: '',
+    websiteId: '',
+    dataDomain: '',
+    measurementId: '',
+  },
+  comments: {
+    provider: 'none',
+    repo: '',
+    repoId: '',
+    category: '',
+    categoryId: '',
+    mapping: 'pathname',
+    strict: true,
+    reactionsEnabled: true,
+    emitMetadata: false,
+    inputPosition: 'bottom',
+    theme: 'preferred_color_scheme',
+    lang: 'zh-CN',
   },
   color: {
     // default theme mode

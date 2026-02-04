@@ -137,6 +137,30 @@ async function _getArticlesByYear(): Promise<Map<number, Article[]>> {
 export const getArticlesByYear = memoize(_getArticlesByYear)
 
 /**
+ * Group articles by year and sort within each year
+ *
+ * @param articles Articles to group
+ * @returns Map of articles grouped by year (descending), sorted by date within each year
+ */
+export function groupArticlesByYear(articles: Article[]): Map<number, Article[]> {
+  const yearMap = new Map<number, Article[]>()
+
+  articles.forEach((article: Article) => {
+    const year = article.data.published.getFullYear()
+    if (!yearMap.has(year)) {
+      yearMap.set(year, [])
+    }
+    yearMap.get(year)!.push(article)
+  })
+
+  yearMap.forEach((yearArticles) => {
+    yearArticles.sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+  })
+
+  return new Map([...yearMap.entries()].sort((a, b) => b[0] - a[0]))
+}
+
+/**
  * Group articles by their tags
  *
  * @returns Map where keys are tag names and values are arrays of articles with that tag

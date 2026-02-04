@@ -16,6 +16,7 @@ const articles = defineCollection({
             z.date().optional(),
         ),
         tags: z.array(z.string()).optional().default([]),
+        image: z.string().optional().default(''),
         // advanced
         draft: z.boolean().optional().default(false),
         pin: z.number().int().min(0).max(99).optional().default(0),

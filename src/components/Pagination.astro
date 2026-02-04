@@ -1,0 +1,92 @@
+---
+import { getPagePath } from "@/utils/path";
+
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  basePath?: string;
+}
+
+const { currentPage, totalPages, basePath = "/" } = Astro.props;
+
+const pages = Array.from({ length: totalPages }, (_, idx) => idx + 1);
+const pathFor = (page: number) => getPagePath(page, basePath);
+---
+
+{totalPages > 1 && (
+  <nav class="pagination" aria-label="Pagination">
+    <a
+      class:list={["pagination__link", currentPage === 1 ? "is-disabled" : ""]}
+      href={currentPage === 1 ? "#" : pathFor(currentPage - 1)}
+      aria-disabled={currentPage === 1}
+    >
+      上一页
+    </a>
+    <div class="pagination__pages">
+      {pages.map((page) => (
+        <a
+          class:list={[
+            "pagination__page",
+            page === currentPage ? "is-active" : "",
+          ]}
+          href={pathFor(page)}
+          aria-current={page === currentPage ? "page" : undefined}
+        >
+          {page}
+        </a>
+      ))}
+    </div>
+    <a
+      class:list={["pagination__link", currentPage === totalPages ? "is-disabled" : ""]}
+      href={currentPage === totalPages ? "#" : pathFor(currentPage + 1)}
+      aria-disabled={currentPage === totalPages}
+    >
+      下一页
+    </a>
+  </nav>
+)}
+
+<style is:global>
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+  }
+
+  .pagination__pages {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .pagination__link,
+  .pagination__page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border, rgba(0, 0, 0, 0.12));
+    color: var(--color-text-primary, #111111);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .pagination__page.is-active {
+    background: var(--color-highlight, rgba(0, 0, 0, 0.08));
+    font-weight: 600;
+  }
+
+  .pagination__link:hover,
+  .pagination__page:hover {
+    transform: translateY(-1px);
+  }
+
+  .pagination__link.is-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+</style>

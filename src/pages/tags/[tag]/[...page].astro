@@ -1,0 +1,56 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getArticlesByTag, getAllTags, groupArticlesByYear } from "@/utils/content";
+import { themeConfig } from "@/config";
+import AllArticles from "@/components/AllArticles.astro";
+import Pagination from "@/components/Pagination.astro";
+
+export async function getStaticPaths() {
+  const tags = await getAllTags();
+  const pageSize = themeConfig.content.pageSize;
+
+  const paths = [] as {
+    params: { tag: string; page?: string };
+    props: { tag: string; page: number; totalPages: number };
+  }[];
+
+  for (const tag of tags) {
+    const articles = await getArticlesByTag(tag);
+    const totalPages = Math.max(1, Math.ceil(articles.length / pageSize));
+
+    for (let page = 1; page <= totalPages; page += 1) {
+      paths.push({
+        params: { tag, page: page === 1 ? undefined : `page/${page}` },
+        props: { tag, page, totalPages },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { tag, page = 1, totalPages = 1 } = Astro.props;
+const articles = await getArticlesByTag(tag);
+const pageSize = themeConfig.content.pageSize;
+const start = (page - 1) * pageSize;
+const end = start + pageSize;
+const pageArticles = articles.slice(start, end);
+const articlesByYear = groupArticlesByYear(pageArticles);
+const basePath = `/tags/${tag}/`;
+---
+
+<Layout articleTitle={`标签：${tag}`} articleDescription={`包含 ${tag} 标签的文章`}
+>
+  <h1>标签：{tag}</h1>
+  {pageArticles.length === 0 ? (
+    <p>该标签下暂无文章。</p>
+  ) : (
+    [...articlesByYear.entries()].map(([_year, entries]) => (
+      <section class="mb-7.5">
+        <div class="uno-decorative-line" />
+        <AllArticles articles={entries} lang={themeConfig.global.lang} />
+      </section>
+    ))
+  )}
+  <Pagination currentPage={page} totalPages={totalPages} basePath={basePath} />
+</Layout>

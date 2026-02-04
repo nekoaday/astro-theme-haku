@@ -32,11 +32,44 @@ export interface ThemeConfig {
     base: string;
     url: string;
     favicon: string;
+    defaultOgImage?: string;
   };
   global: {
     lang: Language;
     toc: boolean;
     dateFmt: 'YYYY-MM-DD' | 'MM-DD-YYYY' | 'DD-MM-YYYY' | 'YYYY MMM D' | 'MMM D YYYY' | 'D MMM YYYY'
+  };
+  content: {
+    pageSize: number;
+  };
+  social: {
+    github?: string;
+    twitter?: string;
+    mastodon?: string;
+    telegram?: string;
+    linkedin?: string;
+    email?: string;
+  };
+  analytics: {
+    provider: 'none' | 'plausible' | 'umami' | 'ga4';
+    scriptUrl?: string;
+    websiteId?: string;
+    dataDomain?: string;
+    measurementId?: string;
+  };
+  comments: {
+    provider: 'none' | 'giscus';
+    repo?: string;
+    repoId?: string;
+    category?: string;
+    categoryId?: string;
+    mapping?: 'pathname' | 'url' | 'title' | 'og:title' | 'specific';
+    strict?: boolean;
+    reactionsEnabled?: boolean;
+    emitMetadata?: boolean;
+    inputPosition?: 'top' | 'bottom';
+    theme?: 'light' | 'dark' | 'preferred_color_scheme';
+    lang?: string;
   };
   color: {
     mode: 'light' | 'dark' | 'auto'
