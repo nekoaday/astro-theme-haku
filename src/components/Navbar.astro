@@ -9,10 +9,10 @@ const isAboutActive = isAbout
 
 function getNavItemClass(isActive: boolean) {
   if (isActive) {
-    return 'highlight-static font-bold after:bottom-[0.7em] no-underline';
+    return 'site-nav-link is-active no-underline';
   }
   
-  const defaultClasses = 'highlight-hover after:bottom-[0.7em] no-underline';
+  const defaultClasses = 'site-nav-link no-underline';
   const hoverClasses = 'hover:text-primary hover:font-bold';
 
   return [defaultClasses, hoverClasses].join(' ');
@@ -41,7 +41,7 @@ const navItems = [
 <nav
   aria-label="Site Navigation"
   class:list={[
-    'mb-10.5 text-2xl font-semibold leading-tight',
+    'site-nav mb-10.5 text-2xl font-semibold leading-tight',
     'lg:text-2xl lg:bottom-3px tracking-wide',
     isArticle ? 'hidden lg:block' : '',
   ]}
